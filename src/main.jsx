@@ -101,31 +101,18 @@ function Trends(){
 }
 
 function Partners(){
+ const deliveryBars=partners.map(p => <div key={p.name}><div><span>{p.name}</span><b>{p.delivery}%</b></div><div className="track"><i style={{width: p.delivery + "%"}}></i></div></div>);
+ const cancelBars=partners.map(p => <div key={p.name}><div><span>{p.name}</span><b>{p.cancel}%</b></div><div className="track"><i className="dangerbar" style={{width: p.cancel * 2 + "%"}}></i></div></div>);
  return <main>
   <PageTitle eyebrow="PARTNER PERFORMANCE" title="Partner performance" sub="Compare fulfilment, cancellations and delivery speed without losing the operational detail."/>
   <Filters/>
   <Section title="Partner scorecard" sub="August 2026 · representative prototype values">
    <table><thead><tr><th>Partner</th><th>Orders</th><th>Share</th><th>Delivery</th><th>Cancel</th><th>Median TAT</th><th>&gt;72h</th><th>Net GMV</th></tr></thead>
-   <tbody>{partners.map(p=>(
-    <tr key={p.name}>
-     <td><b>{p.name}</b></td><td>{fmt(p.orders)}</td><td>{p.share}%</td>
-     <td><span className={"pill "+cls(p.delivery,true)}>{p.delivery}%</span></td>
-     <td><span className={"pill "+cls(p.cancel)}>{p.cancel}%</span></td>
-     <td>{p.tat}h</td><td>{p.late}%</td><td>₹{p.gmv.toFixed(2)} Cr</td>
-    </tr>
-   ))}</tbody></table>
+   <tbody>{partners.map(p => <tr key={p.name}><td><b>{p.name}</b></td><td>{fmt(p.orders)}</td><td>{p.share}%</td><td><span className={"pill "+cls(p.delivery,true)}>{p.delivery}%</span></td><td><span className={"pill "+cls(p.cancel)}>{p.cancel}%</span></td><td>{p.tat}h</td><td>{p.late}%</td><td>₹{p.gmv.toFixed(2)} Cr</td></tr>)}</tbody></table>
   </Section>
   <div className="two">
-   <Section title="Delivery rate">
-    <div className="rankbars">{partners.map(p=>(
-     <div key={p.name}><div><span>{p.name}</span><b>{p.delivery}%</b></div><div className="track"><i style={{width:p.delivery+"%"}}/></div>
-    ))}</div>
-   </Section>
-   <Section title="Cancellation rate">
-    <div className="rankbars">{partners.map(p=>(
-     <div key={p.name}><div><span>{p.name}</span><b>{p.cancel}%</b></div><div className="track"><i className="dangerbar" style={{width:p.cancel*2+"%"}}/></div>
-    ))}</div>
-   </Section>
+   <Section title="Delivery rate"><div className="rankbars">{deliveryBars}</div></Section>
+   <Section title="Cancellation rate"><div className="rankbars">{cancelBars}</div></Section>
   </div>
  </main>
 }
